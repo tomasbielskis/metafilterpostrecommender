@@ -10,9 +10,11 @@ def getmfpage(postid):
     """passed a post_id saves the page content for the post as a json file in data/posts"""
     url = 'https://www.metafilter.com/'
     page = requests.get(url+str(postid)).content
-    d = pd.DataFrame(data={postid: [page]})
-    path = 'data/posts/'
-    d.to_json(path+str.(d.columns[0]))
+    # d = pd.DataFrame(data={postid: [page]})
+    # path = 'data/posts/'
+    # d.to_json(path+str.(d.columns[0]))
+    with open(path+str(postid),'wb') as f:
+        f.write(page)
 
 def scrape_sequential(n):
     for p in dfposts.index[0:n]:
