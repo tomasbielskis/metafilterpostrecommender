@@ -4,6 +4,8 @@ import pandas as pd
 import numpy as np
 import os
 import bs4
+from pymongo import MongoClient
+
 
 def extract_posts_comments():
     posts = defaultdict(str)
@@ -23,9 +25,21 @@ def extract_posts_comments():
                 continue
             t.find('span', class_='smallcopy').decompose()
             comments[commentid['name']] = t.text
-    pd.DataFrame([posts]).to_json('/home/tomas/galvanize/capstone/data/posttext')
-    pd.DataFrame([comments]).to_json('/home/tomas/galvanize/capstone/data/commenttext')
+    pd.DataFrame([posts]).to_json('../data/posttext')
+    pd.DataFrame([comments]).to_json('../data/commenttext')
+
+    # DB_NAME = "mefi"
+    # COLLECTION_NAME1 = "posts"
+    # COLLECTION_NAME2 = "comments"
+    #
+    # client = MongoClient()
+    # db = client[DB_NAME]
+    # coll1 = db[COLLECTION_NAME1]
+    # coll2 = db[COLLECTION_NAME2]
+    #
+    # coll1.insert(posts)
+    # coll2.insert(comments)
 
 if __name__ == '__main__':
-    path = '/home/tomas/galvanize/capstone/data/posts/'
+    path = '../data/posts/'
     extract_posts_comments()
