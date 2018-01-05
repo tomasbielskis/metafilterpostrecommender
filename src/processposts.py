@@ -17,6 +17,7 @@ def extract_posts_comments():
         soup = BeautifulSoup(page, 'html.parser')
         commenttext = soup.find_all('div', class_ = 'comments')
         post_text = soup.find('div', attrs={'class': 'copy'})
+        psmallcopy = post_text.find('span', class_='smallcopy')
         if psmallcopy:
             psmallcopy.decompose()
         posts[file] = post_text.get_text()
