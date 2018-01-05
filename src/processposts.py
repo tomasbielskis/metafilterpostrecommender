@@ -5,6 +5,7 @@ import numpy as np
 import os
 import bs4
 from pymongo import MongoClient
+import multiprocessing
 
 def extract_posts_comments():
     posts = defaultdict(str)
@@ -16,13 +17,17 @@ def extract_posts_comments():
         soup = BeautifulSoup(page, 'html.parser')
         commenttext = soup.find_all('div', class_ = 'comments')
         post_text = soup.find('div', attrs={'class': 'copy'})
-        post_text.find('span', class_='smallcopy').decompose()
+        if psmallcopy:
+            psmallcopy.decompose()
         posts[file] = post_text.get_text()
+        commenttext
         for t in commenttext:
             commentid = t.previous_sibling
             if type(commentid) is not bs4.element.Tag:
                 continue
-            t.find('span', class_='smallcopy').decompose()
+            csmallcopy = t.find('span', class_='smallcopy')
+            if csmallcopy:
+                csmallcopy.decompose()
             comments[commentid['name']] = t.text
     pd.DataFrame([posts]).to_json('../data/posttext')
     pd.DataFrame([comments]).to_json('../data/commenttext')
@@ -38,6 +43,13 @@ def extract_posts_comments():
     #
     # coll1.insert(posts)
     # coll2.insert(comments)
+
+# def extract_parallel_concurrent(pool_size, file_list):
+#     pool = multiprocessing.Pool(pool_size)
+#     pool.map(extract_posts_comments, file_list)
+#     pool.close()
+#     pool.join()
+
 
 if __name__ == '__main__':
     path = '../data/posts/'
