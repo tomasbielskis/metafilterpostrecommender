@@ -8,9 +8,12 @@ from pymongo import MongoClient
 import multiprocessing
 
 def extract_posts_comments():
+    """extracts post and comment ids and text from the mefi pages stored as
+    separate text files """
     posts = defaultdict(str)
     comments = defaultdict(str)
     commentids = []
+
     for file in os.listdir(path):
         with open(path+file,"r") as f:
             page = f.read()
@@ -30,8 +33,16 @@ def extract_posts_comments():
             if csmallcopy:
                 csmallcopy.decompose()
             comments[commentid['name']] = t.text
-    pd.DataFrame([posts]).to_json('../data/posttext')
-    pd.DataFrame([comments]).to_json('../data/commenttext')
+
+    postdf = pd.DataFrame.from_dict(posts,orient='index')
+    commentdf = pd.DataFrame.from_dict(comments,orient='index')
+    chunksize = 20000
+    for i in range(chunksize,len(postdf),chunksize):
+        postdf[i-chunksize:i,:].to_json('../data/posttext{}-{}'.format(i-chunksize,i))
+    for i in range(chunksize,len(commentdf),chunksize):
+        commentdf[i-chunksize:i,:].to_json('../data/commenttext{}-{}'.format(i-chunksize,i))
+
+
 
     # DB_NAME = "mefi"
     # COLLECTION_NAME1 = "posts"
