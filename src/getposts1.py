@@ -5,6 +5,7 @@ import requests
 from timeit import Timer
 import multiprocessing
 import threading
+import boto
 
 def getmfpage(postid):
     """passed a post_id saves the page content for the post as a json file in data/posts"""
@@ -28,9 +29,13 @@ def scrape_parallel_concurrent(pool_size, post_list):
 if __name__ == '__main__':
     dfposts = pd.read_csv('../data/postdata_mefi.txt',sep='\t', header=1,
                         parse_dates=['datestamp'], skiprows=0, index_col='postid')
-    n = 10
+    # n = 10
     pool_size = 4
-    post_list = dfposts.index[0:n]
+    conn = boto.connect_s3()
+    b = conn.get_bucket('tomasbielskis-galvanizebucket')
+    filenames = [f.name.strip('capstone/data/posts/') for f in b.list(prefix='capstone/data/posts/')]
+
+    post_list = [x for x in dfposts.index if str(x) not in filenames]
     # t = Timer(lambda: scrape_sequential(n))
     # print("Completed sequential in %s seconds." % t.timeit(1))
 

@@ -6,7 +6,6 @@ import os
 import bs4
 from pymongo import MongoClient
 
-
 def extract_posts_comments():
     posts = defaultdict(str)
     comments = defaultdict(str)
