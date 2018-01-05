@@ -29,8 +29,8 @@ def scrape_parallel_concurrent(pool_size, post_list):
 if __name__ == '__main__':
     dfposts = pd.read_csv('../data/postdata_mefi.txt',sep='\t', header=1,
                         parse_dates=['datestamp'], skiprows=0, index_col='postid')
-    n = 100
-    pool_size = 4
+    # n = 100
+    pool_size = 8
     conn = boto.connect_s3()
     b = conn.get_bucket('tomasbielskis-galvanizebucket')
     filenames = [f.name.strip('capstone/data/posts/') for f in b.list(prefix='capstone/data/posts/')]

@@ -36,10 +36,10 @@ def extract_posts_comments():
 
     postdf = pd.DataFrame.from_dict(posts,orient='index')
     commentdf = pd.DataFrame.from_dict(comments,orient='index')
-    chunksize = 20000
-    for i in range(chunksize,len(postdf),chunksize):
+    chunksize = min(200,len(postdf))
+    for i in range(chunksize,len(postdf)+1,chunksize):
         postdf[i-chunksize:i,:].to_json('../data/posttext{}-{}'.format(i-chunksize,i))
-    for i in range(chunksize,len(commentdf),chunksize):
+    for i in range(chunksize,len(commentdf)+1,chunksize):
         commentdf[i-chunksize:i,:].to_json('../data/commenttext{}-{}'.format(i-chunksize,i))
 
 
