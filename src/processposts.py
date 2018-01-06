@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import os
 import bs4
-from pymongo import MongoClient
+# from pymongo import MongoClient
 import multiprocessing
 
 def extract_posts_comments():
@@ -12,37 +12,6 @@ def extract_posts_comments():
     separate text files """
     posts = defaultdict(str)
     comments = defaultdict(str)
-    commentids = []
-
-    for file in os.listdir(path):
-        with open(path+file,"r") as f:
-            page = f.read()
-        soup = BeautifulSoup(page, 'html.parser')
-        commenttext = soup.find_all('div', class_ = 'comments')
-        post_text = soup.find('div', attrs={'class': 'copy'})
-        psmallcopy = post_text.find('span', class_='smallcopy')
-        if psmallcopy:
-            psmallcopy.decompose()
-        posts[file] = post_text.get_text()
-        commenttext
-        for t in commenttext:
-            commentid = t.previous_sibling
-            if type(commentid) is not bs4.element.Tag:
-                continue
-            csmallcopy = t.find('span', class_='smallcopy')
-            if csmallcopy:
-                csmallcopy.decompose()
-            comments[commentid['name']] = t.text
-
-    postdf = pd.DataFrame.from_dict(posts,orient='index')
-    commentdf = pd.DataFrame.from_dict(comments,orient='index')
-    chunksize = min(20000,len(postdf))
-    for i in range(chunksize,len(postdf)+1,chunksize):
-        postdf[i-chunksize:i].to_json('../data/posttext{}-{}'.format(i-chunksize,i))
-    for i in range(chunksize,len(commentdf)+1,chunksize):
-        commentdf[i-chunksize:i].to_json('../data/commenttext{}-{}'.format(i-chunksize,i))
-
-
 
     # DB_NAME = "mefi"
     # COLLECTION_NAME1 = "posts"
@@ -53,14 +22,37 @@ def extract_posts_comments():
     # coll1 = db[COLLECTION_NAME1]
     # coll2 = db[COLLECTION_NAME2]
     #
-    # coll1.insert(posts)
-    # coll2.insert(comments)
+    # coll1.remove({})
+    # coll2.remove({})
 
-# def extract_parallel_concurrent(pool_size, file_list):
-#     pool = multiprocessing.Pool(pool_size)
-#     pool.map(extract_posts_comments, file_list)
-#     pool.close()
-#     pool.join()
+    for file in os.listdir(path):
+        with open(path+file,"r") as f:
+            page = f.read()
+        soup = BeautifulSoup(page, 'html.parser')
+
+        post_text = soup.find('div', attrs={'class': 'copy'})
+        if post_text:
+            psmallcopy = post_text.find('span', class_='smallcopy')
+            if psmallcopy:
+                psmallcopy.decompose()
+            posts[file] = post_text.get_text()
+            # coll1.insert({posts[file]: post_text.get_text()},check_keys=False)
+
+        commenttext = soup.find_all('div', class_ = 'comments')
+        if commenttext:
+            for t in commenttext:
+                commentid = t.previous_sibling
+                if type(commentid) is bs4.element.Tag:
+                    csmallcopy = t.find('span', class_='smallcopy')
+                    if csmallcopy:
+                        csmallcopy.decompose()
+                    comments[commentid['name']] = t.text
+                # coll2.insert({comments[commentid['name']]: t.text},check_keys=False)
+
+    postdf = pd.DataFrame.from_dict(posts,orient='index')
+    commentdf = pd.DataFrame.from_dict(comments,orient='index')
+    postdf.to_json('../data/posttext')
+    commentdf.to_json('../data/commenttext')
 
 
 if __name__ == '__main__':
