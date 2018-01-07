@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import os
 import bs4
-# from pymongo import MongoClient
+from pymongo import MongoClient
 import multiprocessing
 
 def extract_posts_comments():
@@ -13,17 +13,17 @@ def extract_posts_comments():
     posts = defaultdict(str)
     comments = defaultdict(str)
 
-    # DB_NAME = "mefi"
-    # COLLECTION_NAME1 = "posts"
-    # COLLECTION_NAME2 = "comments"
-    #
-    # client = MongoClient()
-    # db = client[DB_NAME]
-    # coll1 = db[COLLECTION_NAME1]
-    # coll2 = db[COLLECTION_NAME2]
-    #
-    # coll1.remove({})
-    # coll2.remove({})
+    DB_NAME = "mefi"
+    COLLECTION_NAME1 = "posts"
+    COLLECTION_NAME2 = "comments"
+
+    client = MongoClient()
+    db = client[DB_NAME]
+    coll1 = db[COLLECTION_NAME1]
+    coll2 = db[COLLECTION_NAME2]
+
+    coll1.remove({})
+    coll2.remove({})
 
     for file in os.listdir(path):
         with open(path+file,"r") as f:
@@ -36,7 +36,7 @@ def extract_posts_comments():
             if psmallcopy:
                 psmallcopy.decompose()
             posts[file] = post_text.get_text()
-            # coll1.insert({posts[file]: post_text.get_text()},check_keys=False)
+            coll1.insert({'pid': file, 'ptext': post_text.get_text()},check_keys=False)
 
         commenttext = soup.find_all('div', class_ = 'comments')
         if commenttext:
@@ -47,7 +47,7 @@ def extract_posts_comments():
                     if csmallcopy:
                         csmallcopy.decompose()
                     comments[commentid['name']] = t.text
-                # coll2.insert({comments[commentid['name']]: t.text},check_keys=False)
+                    coll2.insert({'cid':commentid['name'], 'ctext': t.text},check_keys=False)
 
     postdf = pd.DataFrame.from_dict(posts,orient='index')
     commentdf = pd.DataFrame.from_dict(comments,orient='index')
