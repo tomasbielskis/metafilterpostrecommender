@@ -3,10 +3,11 @@ from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.decomposition import NMF, LatentDirichletAllocation
 import pandas as pd
 import numpy as np
+import pickle
 
 n_samples = 200000
 n_features = 100000
-n_components = 10
+n_components = 50
 n_top_words = 20
 
 def print_top_words(model, feature_names, n_top_words=20):
@@ -18,9 +19,11 @@ def print_top_words(model, feature_names, n_top_words=20):
 
 print("Loading dataset...")
 t0 = time()
-dataset = pd.read_json('../data/parsedtext/posttext')[0]
+posttext = pd.read_json('../data/parsedtext/posttext')[0]
+commenttext = pd.read_json('../data/parsedtext/commenttext')[0]
+dataset = posttext.append(commenttext)
 
-data_samples = dataset[:n_samples]
+data_samples = dataset#[:n_samples]
 print("done in %0.3fs." % (time() - t0))
 
 # Use tf-idf features for NMF.
@@ -55,6 +58,8 @@ print("\nTopics in NMF model (Frobenius norm):")
 tfidf_feature_names = tfidf_vectorizer.get_feature_names()
 print_top_words(nmf, tfidf_feature_names, n_top_words)
 
+pickle.dump(nmf, open('NMF Frobenius norm', 'wb'))
+
 # Fit the NMF model
 print("Fitting the NMF model (generalized Kullback-Leibler divergence) with "
       "tf-idf features, n_samples=%d and n_features=%d..."
@@ -68,6 +73,8 @@ print("done in %0.3fs." % (time() - t0))
 print("\nTopics in NMF model (generalized Kullback-Leibler divergence):")
 tfidf_feature_names = tfidf_vectorizer.get_feature_names()
 print_top_words(nmf, tfidf_feature_names, n_top_words)
+
+pickle.dump(nmf, open('NMF Kullback-Leibler', 'wb'))
 
 print("Fitting LDA models with tf features, "
       "n_samples=%d and n_features=%d..."
@@ -83,3 +90,5 @@ print("done in %0.3fs." % (time() - t0))
 print("\nTopics in LDA model:")
 tf_feature_names = tf_vectorizer.get_feature_names()
 print_top_words(lda, tf_feature_names, n_top_words)
+
+pickle.dump(lda, open('LDA', 'wb'))
