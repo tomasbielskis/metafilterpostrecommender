@@ -58,7 +58,7 @@ print("\nTopics in NMF model (Frobenius norm):")
 tfidf_feature_names = tfidf_vectorizer.get_feature_names()
 print_top_words(nmf, tfidf_feature_names, n_top_words)
 
-pickle.dump(nmf, open('NMF Frobenius norm', 'wb'))
+pickle.dump(nmf, open('../data/NMF Frobenius norm', 'wb'))
 
 # Fit the NMF model
 print("Fitting the NMF model (generalized Kullback-Leibler divergence) with "
@@ -74,7 +74,7 @@ print("\nTopics in NMF model (generalized Kullback-Leibler divergence):")
 tfidf_feature_names = tfidf_vectorizer.get_feature_names()
 print_top_words(nmf, tfidf_feature_names, n_top_words)
 
-pickle.dump(nmf, open('NMF Kullback-Leibler', 'wb'))
+pickle.dump(nmf, open('../data/NMF Kullback-Leibler', 'wb'))
 
 print("Fitting LDA models with tf features, "
       "n_samples=%d and n_features=%d..."
@@ -91,4 +91,4 @@ print("\nTopics in LDA model:")
 tf_feature_names = tf_vectorizer.get_feature_names()
 print_top_words(lda, tf_feature_names, n_top_words)
 
-pickle.dump(lda, open('LDA', 'wb'))
+pickle.dump(lda, open('../data/LDA', 'wb'))
