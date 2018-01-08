@@ -1,7 +1,7 @@
 import requests, zipfile, io
 """script to download the infodump and unzip the files into a specified directory
 
-NOT TESTED YET
+NOT TESTED YET, since I had downloaded the files before manually and they haven't been updated since
 
 """
 
