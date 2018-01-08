@@ -1,3 +1,4 @@
+"""Collection of imports and functions to import and process data"""
 import pandas as pd
 import numpy as np
 
