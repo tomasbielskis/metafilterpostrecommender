@@ -20,7 +20,7 @@ def print_top_words(model, feature_names, n_top_words=20):
 
 print("Loading dataset...")
 t0 = time()
-posttext = pd.read_json('../data/parsedtext/posttext')[0]
+posttext = pd.read_json('../data/parsedtext/posttext')[0][0:10000]
 commenttext = []#pd.read_json('../data/parsedtext/commenttext')[0]
 dataset = posttext.append(commenttext)
 
@@ -58,8 +58,8 @@ print()
 
 # Fit the NMF model
 print("Fitting the NMF model (Frobenius norm) with tf-idf features, "
-      "n_samples=%d and n_features=%d..."
-      % (n_samples, n_features))
+      "n_features=%d..."
+      % (n_features))
 t0 = time()
 nmf = NMF(n_components=n_components, random_state=1,
           alpha=.1, l1_ratio=.5).fit(tfidf)
@@ -73,8 +73,8 @@ pickle.dump(nmf, open('../data/NMF Frobenius norm', 'wb'))
 
 # Fit the NMF model
 print("Fitting the NMF model (generalized Kullback-Leibler divergence) with "
-      "tf-idf features, n_samples=%d and n_features=%d..."
-      % (n_samples, n_features))
+      "tf-idf features, n_features=%d..."
+      % (n_features))
 t0 = time()
 nmf = NMF(n_components=n_components, random_state=1,
           beta_loss='kullback-leibler', solver='mu', max_iter=1000, alpha=.1,
@@ -88,8 +88,8 @@ print_top_words(nmf, tfidf_feature_names, n_top_words)
 pickle.dump(nmf, open('../data/NMF Kullback-Leibler', 'wb'))
 
 print("Fitting LDA models with tf features, "
-      "n_samples=%d and n_features=%d..."
-      % (n_samples, n_features))
+      "n_features=%d..."
+      % (n_features))
 lda = LatentDirichletAllocation(n_components=n_components, max_iter=5,
                                 learning_method='online',
                                 learning_offset=50.,
