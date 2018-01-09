@@ -62,6 +62,7 @@ if __name__ == '__main__':
                                        ngram_range=(1,2))
     t0 = time()
     tfidf = tfidf_vectorizer.fit_transform(data_samples)
+    pickle.dump(tfidf_vectorizer, open('../data/tfidfvectorizer', 'wb'))
     pickle.dump(tfidf, open('../data/tfidfmodel', 'wb'))
     print("done in %0.3fs." % (time() - t0))
 
@@ -73,6 +74,7 @@ if __name__ == '__main__':
                                     ngram_range=(1, 2))
     t0 = time()
     tf = tf_vectorizer.fit_transform(data_samples)
+    pickle.dump(tf_vectorizer, open('../data/tfvectorizer', 'wb'))
     pickle.dump(tf, open('../data/tfmodel', 'wb'))
     print("done in %0.3fs." % (time() - t0))
     print()

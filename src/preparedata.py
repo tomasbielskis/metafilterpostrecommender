@@ -22,8 +22,8 @@ if __name__ == '__main__':
     dfcomments = pd.read_csv('../data/commentdata_mefi.txt',sep='\t', header=1,
                              parse_dates=['datestamp'], skiprows=0, index_col='postid')
 
-    posttext = pd.read_json('../data/parsedtext/posttext')
-    commenttext = pd.read_json('../data/parsedtext/commenttext')
+    posttext = pd.read_json('../data/parsedtext/posttext')[0]
+    commenttext = pd.read_json('../data/parsedtext/commenttext')[0]
 
     for df in [dfposts, dfcomments, posttext, commenttext]:
         df.index = df.index.map(str)
