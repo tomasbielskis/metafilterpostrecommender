@@ -4,9 +4,10 @@ from sklearn.decomposition import NMF, LatentDirichletAllocation
 import pandas as pd
 import numpy as np
 import pickle
+from nltk.stem.snowball import SnowballStemmer
 
-n_samples = 200000
-n_features = 100000
+# n_samples = 200000
+n_features = 50000
 n_components = 50
 n_top_words = 20
 
@@ -20,17 +21,26 @@ def print_top_words(model, feature_names, n_top_words=20):
 print("Loading dataset...")
 t0 = time()
 posttext = pd.read_json('../data/parsedtext/posttext')[0]
-commenttext = pd.read_json('../data/parsedtext/commenttext')[0]
+commenttext = []#pd.read_json('../data/parsedtext/commenttext')[0]
 dataset = posttext.append(commenttext)
 
 data_samples = dataset#[:n_samples]
+print("done in %0.3fs." % (time() - t0))
+
+print("Stemming words...")
+stemmer = SnowballStemmer("english")
+t0 = time()
+data_samples = [[stemmer.stem(word) for word in post.split(" ")] for post in data_samples]
+data_samples = [" ".join(post) for post in data_samples]
+
 print("done in %0.3fs." % (time() - t0))
 
 # Use tf-idf features for NMF.
 print("Extracting tf-idf features for NMF...")
 tfidf_vectorizer = TfidfVectorizer(max_df=0.95, min_df=2,
                                    max_features=n_features,
-                                   stop_words='english')
+                                   stop_words='english',
+                                   ngram_range=(1,2))
 t0 = time()
 tfidf = tfidf_vectorizer.fit_transform(data_samples)
 print("done in %0.3fs." % (time() - t0))
@@ -39,7 +49,8 @@ print("done in %0.3fs." % (time() - t0))
 print("Extracting tf features for LDA...")
 tf_vectorizer = CountVectorizer(max_df=0.95, min_df=2,
                                 max_features=n_features,
-                                stop_words='english')
+                                stop_words='english',
+                                ngram_range=(1, 2))
 t0 = time()
 tf = tf_vectorizer.fit_transform(data_samples)
 print("done in %0.3fs." % (time() - t0))
