@@ -23,7 +23,7 @@ def stemming(post):
     return post
 
 def stem_parrallel(pool_size, data):
-    """The parrallel job for stemming. Takes the number of cores and the dataset"""
+    """The parallel job for stemming. Takes the number of cores and the dataset"""
     pool = multiprocessing.Pool(pool_size)
     results = pool.map(stemming, data)
     pool.close()
@@ -63,7 +63,7 @@ if __name__ == '__main__':
     t0 = time()
     tfidf = tfidf_vectorizer.fit_transform(data_samples)
     pickle.dump(tfidf_vectorizer, open('../data/tfidfvectorizer', 'wb'))
-    pickle.dump(tfidf, open('../data/tfidfmodel', 'wb'))
+    pickle.dump(tfidf, open('../data/tfidfmodel', 'wb'))#pickling a sparse matrix not the best, use scipy sparse save_npz
     print("done in %0.3fs." % (time() - t0))
 
     # Use tf (raw term count) features for LDA.
@@ -75,7 +75,7 @@ if __name__ == '__main__':
     t0 = time()
     tf = tf_vectorizer.fit_transform(data_samples)
     pickle.dump(tf_vectorizer, open('../data/tfvectorizer', 'wb'))
-    pickle.dump(tf, open('../data/tfmodel', 'wb'))
+    pickle.dump(tf, open('../data/tfmodel', 'wb'))#not use pickle
     print("done in %0.3fs." % (time() - t0))
     print()
 
