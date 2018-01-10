@@ -5,16 +5,39 @@ import pickle
 
 def process_favorites_data():
     # Load favorites for 2017
-    dffavorites = pd.read_csv('../data/favorites2017.csv',
-                              parse_dates=['datestamp'],
+    # dffavorites2017 = pd.read_csv('../data/favorites2017.csv',
+    #                           parse_dates=['datestamp'],
+    #                           index_col='faveid')
+    # dffavorites2016 = pd.read_csv('../data/favorites2016.csv',
+    #                           parse_dates=['datestamp'],
+    #                           index_col='faveid')
+    # dffavorites2015 = pd.read_csv('../data/favorites2015.csv',
+    #                           parse_dates=['datestamp'],
+    #                           index_col='faveid')
+    # dffavorites2014 = pd.read_csv('../data/favorites2014.csv',
+    #                           parse_dates=['datestamp'],
+    #                           index_col='faveid')
+    dffavorites = pd.read_csv('../data/favoritesdata.txt',sep='\t', header=1,
+                              parse_dates=['datestamp'], skiprows=0,
                               index_col='faveid')
+    dffavorites['datestamp'] = pd.to_datetime(dffavorites['datestamp'],
+                                   format='%b %d %Y %H:%M:%S:%f%p')
+
+    dffavorites = dffavorites[dffavorites['datestamp'].dt.year >= 2017]
+
     # Select only the posts data
     dffavorites = dffavorites[dffavorites['type'].isin([1, 3, 5])]
     # Drop unnecessary columns
     dffavorites = dffavorites[['faver', 'target']]
-    dffavorites.to_json('../data/gl_fav_input_df')
 
-    # need to add lookups for train test plit
+    ptraindata = pd.read_json('../data/nlp/ptraindata',typ='series')
+    ptestdata = pd.read_json('../data/nlp/ptestdata', typ='series')
+
+    dffavorites_train = dffavorites[dffavorites['target'].isin(ptraindata.index)]
+    dffavorites_test = dffavorites[dffavorites['target'].isin(ptestdata.index)]
+
+    dffavorites_train.to_json('../data/gl_fav_train')
+    dffavorites_test.to_json('../data/gl_fav_test')
 
 def process_item_data():
     # Load post_text for the index
@@ -43,7 +66,5 @@ def process_item_data():
 def process_user_data():
     # User posts
     # User comments
-
-
 
 if __name__ == '__main__':

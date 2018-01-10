@@ -11,17 +11,23 @@ import threading
 import os
 
 def load_data():
-    print("Loading dataset...")
+    print("Loading and splitting (train/test) dataset...")
     t0 = time()
-    posttext = pd.read_json('../data/parsedtext/posttext')[0][0:10000]
-    commenttext = []#pd.read_json('../data/parsedtext/commenttext')[0]
-    dataset = posttext.append(commenttext)
-    data_samples = dataset#[:n_samples]
-    train, test = train_test_split(data_samples, test_size=0.2, random_state=42)
+    posttext = pd.read_json('../data/parsedtext/posttext')[0]#[0:10000]
+    commenttext = pd.read_json('../data/parsedtext/commenttext')[0]#[0:10000]
+    ptrain, ptest = train_test_split(posttext, test_size=0.2, random_state=42)
+    ctrain, ctest = train_test_split(commenttext, test_size=0.2, random_state=42)
+
+    train = ptrain.append(ctrain)
+    test = ptest.append(ctest)
+    ptrain.to_json('../data/nlp/ptraindata')
+    ptest.to_json('../data/nlp/ptestdata')
+    ctrain.to_json('../data/nlp/ctraindata')
+    ctest.to_json('../data/nlp/ctestdata')
     train.to_json('../data/nlp/traindata')
     test.to_json('../data/nlp/testdata')
     print("done in %0.3fs." % (time() - t0))
-    return train
+    return train #switch to process the other ones
 
 def print_top_words(model, feature_names, n_top_words=20):
     for topic_idx, topic in enumerate(model.components_):
@@ -138,7 +144,7 @@ if __name__ == '__main__':
     n_features = 50000 #max features used in NMF including unigrams and bigrams
     n_components = 50 #latent features
     n_top_words = 20 #for printing model output
-    pool_size = 4 #number of processors on the machine for stemming
+    pool_size = 32 #number of processors on the machine for stemming
     # Set the path to save files
     output_path = '../data/nlp/train/'
     if not os.path.isdir(output_path):
