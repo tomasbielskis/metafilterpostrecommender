@@ -18,12 +18,13 @@ def load_data():
     ptrain, ptest = train_test_split(posttext, test_size=0.2, random_state=42)
     ctrain, ctest = train_test_split(commenttext, test_size=0.2, random_state=42)
 
-    train = ptrain.append(ctrain)
-    test = ptest.append(ctest)
+    train = ptrain.append(ctrain).reset_index()
+    test = ptest.append(ctest).reset_index()
     ptrain.to_json('../data/nlp/ptraindata')
     ptest.to_json('../data/nlp/ptestdata')
     ctrain.to_json('../data/nlp/ctraindata')
     ctest.to_json('../data/nlp/ctestdata')
+
     train.to_json('../data/nlp/traindata')
     test.to_json('../data/nlp/testdata')
     print("done in %0.3fs." % (time() - t0))

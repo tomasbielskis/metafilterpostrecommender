@@ -12,5 +12,5 @@ def get_mefi_infodump(path):
     z.extractall(path)
 
 if __name__ == '__main__':
-    path = '../data/'
+    path = '../data/infodump/'
     get_mefi_infodump(path)
