@@ -25,10 +25,5 @@ rec2 = graphlab.recommender.factorization_recommender.create(
             target='rating',
             binary_target=True)
 
-graphlab.recommender.util.compare_models(graphlab.SFrame(train_data), [rec1, rec2])
-graphlab.recommender.util.compare_models(graphlab.SFrame(train_data), [rec1, rec2],metric='precision_recall')
-
-rec1:
-8.157690078901613e-06
-rec2:
-6.362300720061738e-08
+graphlab.recommender.util.compare_models(graphlab.SFrame(test_data), [rec1, rec2])
+graphlab.recommender.util.compare_models(graphlab.SFrame(test_data), [rec1, rec2],metric='precision_recall')
