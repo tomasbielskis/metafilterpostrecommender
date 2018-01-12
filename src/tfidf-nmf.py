@@ -151,8 +151,8 @@ if __name__ == '__main__':
     if not os.path.isdir(output_path):
         os.mkdir(output_path)
 
-    # data = load_data() # load data function or other
-    data = load_data()
+    data = load_data() # load data function or other
+    # data =
     data_stemmed = run_stemmer(output_path, data) #change to pd.read_json if already present
     # data_stemmed = pd.read_json('../data/stemmed')
 

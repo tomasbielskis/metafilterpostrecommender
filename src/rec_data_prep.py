@@ -1,3 +1,5 @@
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from sklearn.decomposition import NMF, LatentDirichletAllocation
 from time import time
 import pandas as pd
 import numpy as np
@@ -86,6 +88,7 @@ def process_item_test_data():
     nmf1 = pickle.load(open(model_path+'NMF_Frobenius', 'rb'))
     nmf2 = pickle.load(open(model_path+'NMF Kullback-Leibler', 'rb'))
     lda = pickle.load(open(model_path+'LDA', 'rb'))
+
     posts = len(ptestdata)
 
     # Load user posts and user comments metadata from the mefi datadump
