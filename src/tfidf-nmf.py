@@ -100,6 +100,8 @@ def NMF_Frob(path, tfidf, tfidf_vectorizer):
     nmf = NMF(n_components=n_components, random_state=1,
               alpha=.1, l1_ratio=.5).fit(tfidf)
     pickle.dump(nmf, open(path+'NMF_Frobenius', 'wb'))
+    W1 = nmf.transform(tfidf)
+    pickle.dump(W1, open(model_path+'W1', 'wb'))
     print("done in %0.3fs." % (time() - t0))
 
     print("\nTopics in NMF model (Frobenius norm):")
@@ -116,6 +118,8 @@ def NMF_Kullback(path, tfidf, tfidf_vectorizer):
               beta_loss='kullback-leibler', solver='mu', max_iter=1000, alpha=.1,
               l1_ratio=.5).fit(tfidf)
     pickle.dump(nmf, open(path+'NMF Kullback-Leibler', 'wb'))
+    W2 = nmf.transform(tfidf)
+    pickle.dump(W2, open(model_path+'W2', 'wb'))
     print("done in %0.3fs." % (time() - t0))
 
     print("\nTopics in NMF model (generalized Kullback-Leibler divergence):")
@@ -133,6 +137,8 @@ def LDA_func(path, tf, tf_vectorizer):
     t0 = time()
     lda.fit(tf)
     pickle.dump(lda, open(path+'LDA', 'wb'))
+    W3 = lda.transform(tf)
+    pickle.dump(W3, open(model_path+'W3', 'wb'))
     print("done in %0.3fs." % (time() - t0))
 
     print("\nTopics in LDA model:")

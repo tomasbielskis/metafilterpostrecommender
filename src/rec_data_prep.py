@@ -18,7 +18,7 @@ def process_favorites_data():
     # Filter the recent favorites
     dffavorites = dffavorites[dffavorites['datestamp'].dt.year >= 2014]
     # Select only the posts data (type = 1, 3, 5)
-    dffavorites = dffavorites[dffavorites['type'].isin([1, 3, 5])]
+    dffavorites = dffavorites[dffavorites['type'].isin([1])]
     # Drop unnecessary columns
     dffavorites = dffavorites[['faver', 'target']]
     # Look up the train/test indexes
@@ -36,21 +36,15 @@ def process_item_train_data():
 
     # Load text feature models
     model_path = '../data/nlp/train/'
-    tfidf = pickle.load(open(model_path+'tfidfmodel', 'rb'))
-    tf = pickle.load(open(model_path+'tfmodel', 'rb'))
-    nmf1 = pickle.load(open(model_path+'NMF_Frobenius', 'rb'))
-    nmf2 = pickle.load(open(model_path+'NMF Kullback-Leibler', 'rb'))
-    lda = pickle.load(open(model_path+'LDA', 'rb'))
-    posts = len(ptraindata)
-    W1 = nmf1.transform(tfidf)
-    W2 = nmf2.transform(tfidf)
-    W3 = lda.transform(tf)
+    W1 = pickle.load(open(model_path+'W1', 'rb'))
+    W2 = pickle.load(open(model_path+'W2', 'rb'))
+    W3 = pickle.load(open(model_path+'W3', 'rb'))
 
     # Load user posts and user comments metadata from the mefi datadump
     dfposts = pd.read_csv('../data/postdata_mefi.txt',sep='\t', header=1,
                           parse_dates=['datestamp'], skiprows=0, index_col='postid')
     dfcomments = pd.read_csv('../data/commentdata_mefi.txt',sep='\t', header=1,
-                             parse_dates=['datestamp'], skiprows=0, index_col='postid')
+                             parse_dates=['datestamp'], skiprows=0, index_col='commentid')
 
     i = 1
     # save to json the three text feature models for the posts (not comments)
@@ -59,12 +53,14 @@ def process_item_train_data():
         com_data_train = pd.DataFrame(w)[posts:]
         item_data_train['postid'] = ptraindata.index
         com_data_train['commentid'] = ctraindata.index
+        item_data_train.set_index('postid', inplace=True)
+        com_data_train.set_index('commentid', inplace=True)
         item_data_train.to_json('../data/gl_item_train_data'+str(i))
 
-        user_post_features = dfposts[['postid','userid']].join(item_data_train,on='postid',how='inner')
-        user_comment_features = dfcomments[['commentid','userid']].join(com_data_train,on='commentid', how='inner')
+        user_post_features = dfposts[['userid']].join(item_data_train,how='inner')
+        user_comment_features = dfcomments[['userid']].join(com_data_train, how='inner')
 
-        user_data = user_post_features.drop('postid').append(user_comment_features.drop('commentid')
+        user_data = user_post_features.append(user_comment_features)
         user_data = user_data.groupby('userid').mean()
         user_data.to_json('../data/gl_user_train_data'+str(i))
         i += 1
@@ -95,7 +91,7 @@ def process_item_test_data():
     dfposts = pd.read_csv('../data/postdata_mefi.txt',sep='\t', header=1,
                           parse_dates=['datestamp'], skiprows=0, index_col='postid')
     dfcomments = pd.read_csv('../data/commentdata_mefi.txt',sep='\t', header=1,
-                             parse_dates=['datestamp'], skiprows=0, index_col='postid')
+                             parse_dates=['datestamp'], skiprows=0, index_col='commentid')
 
     i = 1
     # save to json the three text feature models for the posts (not comments)
@@ -104,12 +100,14 @@ def process_item_test_data():
         com_data_test = pd.DataFrame(w)[posts:]
         item_data_test['postid'] = ptestdata.index
         com_data_test['commentid'] = ctestdata.index
+        item_data_test.set_index('postid', inplace=True)
+        com_data_test.set_index('commentid', inplace=True)
         item_data_test.to_json('../data/gl_item_test_data'+str(i))
 
-        user_post_features = dfposts[['postid','userid']].join(item_data_test,on='postid',how='inner')
-        user_comment_features = dfcomments[['commentid','userid']].join(com_data_test,on='commentid', how='inner')
+        user_post_features = dfposts[['userid']].join(item_data_test,how='inner')
+        user_comment_features = dfcomments[['userid']].join(com_data_test, how='inner')
 
-        user_data = user_post_features.drop('postid').append(user_comment_features.drop('commentid')
+        user_data = user_post_features.append(user_comment_features)
         user_data = user_data.groupby('userid').mean()
         user_data.to_json('../data/gl_user_test_data'+str(i))
         i += 1
