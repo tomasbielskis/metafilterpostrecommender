@@ -113,6 +113,6 @@ def process_item_test_data():
         i += 1
 
 if __name__ == '__main__':
-    process_favorites_data()
+    # process_favorites_data()
     process_item_train_data()
-    process_item_test_data()
+    # process_item_test_data()
