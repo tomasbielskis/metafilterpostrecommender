@@ -6,13 +6,15 @@ import numpy as np
 import pickle
 
 if __name__ == '__main__':
+
     model_path = '../data/nlp/train/'
     tfidf = pickle.load(open(model_path+'tfidfmodel', 'rb'))
     tf = pickle.load(open(model_path+'tfmodel', 'rb'))
+
     # nmf1 = pickle.load(open(model_path+'NMF_Frobenius', 'rb'))
     nmf2 = pickle.load(open(model_path+'NMF Kullback-Leibler', 'rb'))
     lda = pickle.load(open(model_path+'LDA', 'rb'))
-    posts = len(ptraindata)
+
     # W1 = nmf1.transform(tfidf)
     W2 = nmf2.transform(tfidf)
     W3 = lda.transform(tf)

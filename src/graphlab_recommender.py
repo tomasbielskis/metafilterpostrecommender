@@ -36,6 +36,11 @@ def gl_rec():
                 item_data=graphlab.SFrame(item_train_data),
                 user_data=graphlab.SFrame(user_train_data))
 
+    rec1.evaluate_precision_recall(graphlab.SFrame(test_data))
+    rec2.evaluate_precision_recall(graphlab.SFrame(test_data))
+    rec3.evaluate_precision_recall(graphlab.SFrame(test_data))
+    rec4.evaluate_precision_recall(graphlab.SFrame(test_data))
+
     graphlab.recommender.util.compare_models(graphlab.SFrame(test_data),
                 [rec1, rec2, rec3, rec4],
                 metric='precision_recall')
@@ -45,9 +50,12 @@ if __name__ == '__main__':
     train_data = pd.read_json(path+'gl_fav_train')
     test_data = pd.read_json(path+'gl_fav_test')
     item_train_data = pd.read_json(path+'gl_item_train_data1')
-    item_test_data = pd.read_json(path+'gl_item_test_data1')
+    # item_test_data = pd.read_json(path+'gl_item_test_data1')
     user_train_data = pd.read_json(path+'gl_user_train_data1')
-    user_test_data = pd.read_json(path+'gl_user_test_data1')
+    # user_test_data = pd.read_json(path+'gl_user_test_data1')
     train_data['rating'] = 1
     train_data.columns = [u'faver', u'postid', u'rating']
     test_data.columns = [u'faver', u'postid']
+    user_train_data['faver'] = user_train_data.index.map(int)
+
+    gl_rec()
