@@ -40,6 +40,8 @@ def process_item_train_data():
     W2 = pickle.load(open(model_path+'W2', 'rb'))
     W3 = pickle.load(open(model_path+'W3', 'rb'))
 
+    posts = len(ptraindata)
+
     # Load user posts and user comments metadata from the mefi datadump
     dfposts = pd.read_csv('../data/postdata_mefi.txt',sep='\t', header=1,
                           parse_dates=['datestamp'], skiprows=0, index_col='postid')
@@ -59,6 +61,7 @@ def process_item_train_data():
 
         user_post_features = dfposts[['userid']].join(item_data_train,how='inner')
         user_comment_features = dfcomments[['userid']].join(com_data_train, how='inner')
+
 
         user_data = user_post_features.append(user_comment_features)
         user_data = user_data.groupby('userid').mean()
