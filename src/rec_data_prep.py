@@ -26,8 +26,8 @@ def process_favorites_data():
     ptestdata = pd.read_json('../data/nlp/ptestdata', typ='series')
     dffavorites_train = dffavorites[dffavorites['target'].isin(ptraindata.index)]
     dffavorites_test = dffavorites[dffavorites['target'].isin(ptestdata.index)]
-    dffavorites_train.to_json('../data/gl_fav_train')
-    dffavorites_test.to_json('../data/gl_fav_test')
+    dffavorites_tradffin.to_json('../data/fav_train')
+    dffavorites_test.to_json('../data/fav_test')
 
 def process_item_train_data():
     # Grab post and comment train data for index
@@ -48,6 +48,14 @@ def process_item_train_data():
     dfcomments = pd.read_csv('../data/commentdata_mefi.txt',sep='\t', header=1,
                              parse_dates=['datestamp'], skiprows=0, index_col='commentid')
 
+
+    dffav_post_train = pd.read_json('../data/rec_input/gl_fav_train')
+    dffav_post_train.columns = ['userid','postid']
+    dffav_post_train.set_index('postid', drop=True, inplace=True)
+    dffav_com_train = pd.read_json('../data/rec_input/fav_comments_train')
+    dffav_com_train.columns = ['userid','commentid']
+    dffav_com_train.set_index('commentid', drop=True, inplace=True)
+
     i = 1
     # save to json the three text feature models for the posts (not comments)
     for w in [W1, W2, W3]:
@@ -62,10 +70,18 @@ def process_item_train_data():
         user_post_features = dfposts[['userid']].join(item_data_train,how='inner')
         user_comment_features = dfcomments[['userid']].join(com_data_train, how='inner')
 
+        user_post_features.to_json('../data/user_post_feat_train'+str(i))
+        user_comment_features.to_json('../data/user_com_feat_train'+str(i))
 
-        user_data = user_post_features.append(user_comment_features)
-        user_data = user_data.groupby('userid').mean()
-        user_data.to_json('../data/gl_user_train_data'+str(i))
+        user_fav_post_features = dffav_post_train[['userid']].join(item_data_train,how='inner')
+        user_fav_comment_features = dffav_com_train[['userid']].join(com_data_train, how='inner')
+
+        user_fav_post_features.to_json('../data/user_fav_post_features_train'+str(i))
+        user_fav_comment_features.to_json('../data/user_fav_comment_features_train'+str(i))
+
+        # user_data = user_post_features.append(user_comment_features)
+        # user_data = user_data.groupby('userid').mean()
+        # user_data.to_json('../data/gl_user_train_data'+str(i))
         i += 1
 
 # for each user in dfposts, pull up the postid and find the nmf features for it
@@ -96,6 +112,16 @@ def process_item_test_data():
     dfcomments = pd.read_csv('../data/commentdata_mefi.txt',sep='\t', header=1,
                              parse_dates=['datestamp'], skiprows=0, index_col='commentid')
 
+
+    dffav_post_test = pd.read_json('../data/rec_input/gl_fav_test')
+    dffav_post_test.columns = ['userid','postid']
+    dffav_post_test.set_index('postid', drop=True, inplace=True)
+
+
+    dffav_com_test = pd.read_json('../data/rec_input/fav_comments_test')
+    dffav_com_test.columns = ['userid','commentid']
+    dffav_com_test.set_index('commentid', drop=True, inplace=True)
+
     i = 1
     # save to json the three text feature models for the posts (not comments)
     for w in [nmf1, nmf2, lda]:
@@ -110,12 +136,22 @@ def process_item_test_data():
         user_post_features = dfposts[['userid']].join(item_data_test,how='inner')
         user_comment_features = dfcomments[['userid']].join(com_data_test, how='inner')
 
-        user_data = user_post_features.append(user_comment_features)
-        user_data = user_data.groupby('userid').mean()
-        user_data.to_json('../data/gl_user_test_data'+str(i))
+        user_post_features.to_json('../data/user_post_feat_test'+str(i))
+        user_comment_features.to_json('../data/user_com_feat_test'+str(i))
+
+        user_fav_post_features = dffav_post_test[['userid']].join(item_data_test,how='inner')
+        user_fav_comment_features = dffav_com_test[['userid']].join(com_data_test, how='inner')
+
+        user_fav_post_features.to_json('../data/user_fav_post_features_test'+str(i))
+        user_fav_comment_features.to_json('../data/user_fav_comment_features_test'+str(i))
+
+
+        # user_data = user_post_features.append(user_comment_features)
+        # user_data = user_data.groupby('userid').mean()
+        # user_data.to_json('../data/gl_user_test_data'+str(i))
         i += 1
 
 if __name__ == '__main__':
     # process_favorites_data()
     process_item_train_data()
-    # process_item_test_data()
+    process_item_test_data()
