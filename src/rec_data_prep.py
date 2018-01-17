@@ -76,8 +76,8 @@ def process_item_train_data():
         user_fav_post_features = dffav_post_train[['userid']].join(item_data_train,how='inner')
         user_fav_comment_features = dffav_com_train[['userid']].join(com_data_train, how='inner')
 
-        user_fav_post_features.to_json('../data/user_fav_post_features_train'+str(i))
-        user_fav_comment_features.to_json('../data/user_fav_comment_features_train'+str(i))
+        user_fav_post_features.reset_index().to_json('../data/user_fav_post_features_train'+str(i))
+        user_fav_comment_features.reset_index().to_json('../data/user_fav_comment_features_train'+str(i))
 
         # user_data = user_post_features.append(user_comment_features)
         # user_data = user_data.groupby('userid').mean()
@@ -142,8 +142,8 @@ def process_item_test_data():
         user_fav_post_features = dffav_post_test[['userid']].join(item_data_test,how='inner')
         user_fav_comment_features = dffav_com_test[['userid']].join(com_data_test, how='inner')
 
-        user_fav_post_features.to_json('../data/user_fav_post_features_test'+str(i))
-        user_fav_comment_features.to_json('../data/user_fav_comment_features_test'+str(i))
+        user_fav_post_features.reset_index().to_json('../data/user_fav_post_features_test'+str(i))
+        user_fav_comment_features.reset_index().to_json('../data/user_fav_comment_features_test'+str(i))
 
 
         # user_data = user_post_features.append(user_comment_features)
