@@ -1,34 +1,26 @@
 import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
-import os
-from collections import defaultdict
 
-item_train_data = pd.read_json('../data/rec_input/gl_item_train_data1')
+def sim_rec(user_data, item_data, favorites_test, index, top_n = 5):
+    S = cosine_similarity(user_data[index], item_data).flatten()
+    related_docs_indices = [i for i in S.argsort()[::-1] if i != index]
+    return [(index, S[index]) for index in related_docs_indices][0:top_n]
 
-user_train_data = pd.read_json('../data/rec_input/gl_user_train_data1')
+def user_lookup(user_name, user_data):
+    user_id = dfuser.iloc[dfuser['name']==user_name]
+    return user_data.iloc[user_id]
 
-
-S = cosine_similarity(user_train_data,item_train_data)
-
-
-
+def overlap():
+    pass
 
 if __name__ == '__main__':
-    # inputdfs = defaultdict(pd.DataFrame)
     path = '../data/rec_input/'
-    # files = os.listdir(path)
-    # for file in files:
-    #     inputdfs[os.path.basename(file)] = pd.read_json(path+file)
+    user_data1 = pd.read_json('../data/user_data1')#complete user data
+    item_test_data1 = pd.read_json(path+'gl_item_test_data1')#syntehtic new posts
+    dfuser = pd.read_csv('data/usernames.txt',sep='\t', header=1, parse_dates=['joindate'], skiprows=0, index_col='userid')
+    # fav_posts_test = pd.read_json(path+'gl_fav_posts_test')#actuals to compare
+    index = user_lookup(user_name, user_data1)#look up the index of a user
 
-    user_com_feat_train1 = pd.read_json(path+'user_com_feat_train1')
-    user_fav_comment_features_train1 = pd.read_json(path+'user_fav_comment_features_train1')
-    user_post_feat_train1 = pd.read_json(path+'user_post_feat_train1')
-    user_fav_post_features_train1 = pd.read_json(path+'user_fav_post_features_train1')
-    user_com_feat_test1 = pd.read_json(path+'user_com_feat_test1')
-    user_fav_comment_features_test1 = pd.read_json(path+'user_fav_comment_features_test1')
-    user_post_feat_test1 = pd.read_json(path+'user_post_feat_test1')
-    user_fav_post_features_test1 = pd.read_json(path+'user_fav_post_features_test1')
-
-    gl_item_test_data1 = pd.read_json(path+'gl_item_test_data1')#syntehtic new posts
-    gl_fav_posts_test = pd.read_json(path+'gl_fav_posts_test')#actuals to compare
+    for index, score in sim_rec(user_data1,item_test_data1, index):
+        print score, item_test_data1[index]
