@@ -26,7 +26,7 @@ def process_favorites_data():
     ptestdata = pd.read_json('../data/nlp/ptestdata', typ='series')
     dffavorites_train = dffavorites[dffavorites['target'].isin(ptraindata.index)]
     dffavorites_test = dffavorites[dffavorites['target'].isin(ptestdata.index)]
-    dffavorites_tradffin.to_json('../data/fav_train')
+    dffavorites_train.to_json('../data/fav_train')
     dffavorites_test.to_json('../data/fav_test')
 
 def process_item_train_data():
