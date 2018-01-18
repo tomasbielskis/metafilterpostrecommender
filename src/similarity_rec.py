@@ -3,6 +3,8 @@ import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 
 def sim_rec(user_data, item_data, index, top_n = 10):
+    """Calculates up post recommendations for an individual user
+    """
     s = cosine_similarity(user_data[user_data.index==index], item_data).flatten()
     post_indexes = s.argsort()[::-1][0:top_n]
     return [item_data.index[i] for i in post_indexes]
@@ -22,8 +24,8 @@ if __name__ == '__main__':
     sim_rec(user_data1,item_test_data1,index)
 
 
-: d[215374]
-Out[97]:
-Int64Index([152591, 29218, 83530, 143448, 80804, 123224, 33947, 32388, 66082,
-            1014],
-           dtype='int64')
+# : d[215374]
+# Out[97]:
+# Int64Index([152591, 29218, 83530, 143448, 80804, 123224, 33947, 32388, 66082,
+#             1014],
+#            dtype='int64')
