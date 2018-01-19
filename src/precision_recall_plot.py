@@ -4,9 +4,6 @@ import matplotlib.pyplot as plt
 
 """Precision and recall based on the number of recommendations:
 """
-dfs = [NMF1_all_items,NMF1_train,NMF1_test,NMF2_test,LDA_test,Random_test]
-df_names = ['NMF1_all_items','NMF1_train','NMF1_test','NMF2_test','LDA_test','Random_test']
-
 
 NMF1_all_items = {5: (0.67112970711297082, 2.8932975543375332),
                 10: (0.36987447698744774, 3.0525196504322381),
@@ -44,9 +41,8 @@ Random_test = {5: (0.066170388751033926, 0.012389405200393614),
                  100: (0.055063216353538932, 0.34259814819547318),
                  1000: (0.058773484579936197, 2.8626463979393773)}
 
-# c = pd.DataFrame(NMF1_all_items).T
-# c.columns = ['precision', 'recall']
-# c['model'] = 'NMF1_all_items'
+dfs = [NMF1_all_items,NMF1_train,NMF1_test,NMF2_test,LDA_test,Random_test]
+df_names = ['NMF1_all_items','NMF1_train','NMF1_test','NMF2_test','LDA_test','Random_test']
 
 fig, ax = plt.subplots()
 for df, df_name in zip(dfs,df_names):
