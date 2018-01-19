@@ -3,4 +3,7 @@ data/*
 src/.ipynb_checkpoints
 *checkpoint.ipynb
 *src/checkpoint.ipynb
-src/my_app
+src/my_app/data
+src/my_app/static
+src/my_app/templates
+src/my_app/__pycache__
