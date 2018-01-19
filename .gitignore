@@ -3,3 +3,4 @@ data/*
 src/.ipynb_checkpoints
 *checkpoint.ipynb
 *src/checkpoint.ipynb
+src/my_app
