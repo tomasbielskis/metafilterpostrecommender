@@ -31,12 +31,15 @@ def post_recommender():
     user_string = str(request.form['user_input1'])
     # page = 'These are some posts that you might like: {0}'
     if user_string == 'test':
-        return 'lame user name, try again'
+        return 'Not a valid user_name, try again please.'
     elif len(user_string.split(' ')) == 1:
         post_dict = recommend_user(user_string)
     else:
         post_dict = recommend_text(user_string)
-    return render_template('predict.html',posts=post_dict)
+    if post_dict:
+        return render_template('predict.html',posts=post_dict)
+    else:
+        return 'Not enough information for this user, try again please.'
 
 def stemming(post):
     """A function for stemming the words in a list of posts"""
@@ -74,17 +77,20 @@ def user_lookup(user_name):
 
 def post_lookup(post_list):
     post_titles = pd.read_csv('data/posttitles_mefi.txt',sep='\t', header=1, skiprows=0, index_col='postid', error_bad_lines=False)
-    return {p: post_titles[post_titles.index==p]['title'].values[0] for p in post_list if len(post_titles[post_titles.index==p]['title']) >= 1}
+    return {p: post_titles[post_titles.index==p]['title'].values[0]
+            if len(post_titles[post_titles.index==p]['title']) >= 1
+            else 'No title' for p in post_list}
 
 def recommend_user(user_name):
     index = user_lookup(user_name)#look up the index of a user
     if index != None:
-        posts = sim_rec(user_data, item_data, index,top_n=10)
-        pt = post_lookup(posts)
-        if len(pt) >=1:
-            return post_lookup(posts)
-        else:
-            return 'User not found'
+        posts = sim_rec(user_data, item_data, index,top_n=100)
+        if posts != 'No data on this user...':
+            pt = post_lookup(posts)
+            if len(pt) >=1:
+                return pt
+            else:
+                return 'User not found, or insufficient data'
 
 def recommend_text(string):
     data_stemmed = stemming(string) #change to pd.read_json if already present
@@ -93,7 +99,7 @@ def recommend_text(string):
     tfidf = tfidf_vect(data_stemmed, tfidf_vectorizer)
     nmf_features = NMF_Kullback(tfidf, nmf2)
     nmf_features = pd.DataFrame(nmf_features)
-    postids = sim_rec(nmf_features, item_data, 0,top_n=10)
+    postids = sim_rec(nmf_features, item_data, 0,top_n=100)
     return post_lookup(postids)
 
 if __name__ == '__main__':
