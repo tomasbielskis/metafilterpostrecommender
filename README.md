@@ -18,16 +18,16 @@ Process
 2. Parse all posts and comments.
 3. Combine with publicly available MeFi metadata. 
 4. Natural language processing:
-  a) Stemming all text
-  b) Converting words into vectors based on term frequency (TF) and inverse document frequency (IDF)
-  c) Non-negative matrix factorization (NMF) and latent dirichlet allocation (LDA) to compress the word features into a smaller number of latent features
+  a) stemming all text,
+  b) converting words into vectors based on term frequency (TF) and inverse document frequency (IDF),
+  c) non-negative matrix factorization (NMF) and latent dirichlet allocation (LDA) to compress the word features into a smaller number of latent features.
 5. User preference feature engineering:
-  a) 4 sources of signal on user tastes derived from the available data: 
+  - 4 sources of signal on user tastes derived from the available data: 
     - Posts written by the user
     - Posts favorited by the user
     - Comments written by the user
     - Comments favorited by the user
-  b) Collect and combine text features for the four categories above.
+  - Collect and combine text features for the four categories above.
 6. Identify the posts that have features closest to the user preferences by using a cosine similarity matrix. 
 
 Results
