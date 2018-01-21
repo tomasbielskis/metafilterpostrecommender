@@ -10,7 +10,7 @@ Like many online communities and sites, MeFi harbors a wealth of content far exc
 
 Mission statement
 
-With my project, I attempted to facilitate content discovery on MeFi and circumvent the tunnel vission of popularity by quantifying the tastes and preferences of individual users and aligning them with the explicit and implicit characteristics of posts and comments. I wanted to produce a recommender that is superior to collaborative filtering based methodoly based on favorites alone.
+With my project, I attempted to facilitate content discovery on MeFi and circumvent the tunnel vission of popularity by quantifying the tastes and preferences of individual users and aligning them with the explicit and implicit characteristics of posts and comments. I wanted to produce a recommender that is superior to collaborative filtering methodoly based on favorites alone.
 
 Process
 
