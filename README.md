@@ -30,6 +30,12 @@ Process
   - Collect and combine text features for the four categories above.
 6. Identify the posts that have features closest to the user preferences by using a cosine similarity matrix. 
 
+Tech Stack
+
+- Python libraries: numpy, pandas, sklearn, nltk, multiprocessing, flask
+- MongoDB
+- AWS S3, AWS EC2
+
 Results
 
 I had two main goals: 
