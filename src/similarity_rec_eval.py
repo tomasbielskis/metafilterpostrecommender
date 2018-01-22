@@ -36,13 +36,13 @@ if __name__ == '__main__':
     # item_train_data.index.rename(None,inplace=True)
     # item_train_data.columns = item_train_data.columns.map(int)
 
-    # fav_posts_train = pd.read_json(path+'gl_fav_posts_train')#actuals to compare
+    fav_posts_train = pd.read_json(path+'gl_fav_posts_train')#actuals to compare
 
-    item_data = item_test_data.append(item_train_data)
+    item_data = item_test_data#.append(item_train_data)
     fav_posts = fav_posts_test.append(fav_posts_train)
 
     perf = {}
-    for n in [5,10,50,100,1000]:
+    for n in [1]:#5,10,50,100,1000]:
         recs = sim_rec(user_data,item_data, top_n=n)#run the function above or load a file
         # random_recs = {u: random.sample(set(item_data.index),n) for u in user_data.index}
         perf[n] = metrics(recs, fav_posts)
