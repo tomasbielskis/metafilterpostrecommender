@@ -1,0 +1,7 @@
+flask
+pip-tools
+scipy
+numpy
+pandas
+scikit-learn
+nltk
