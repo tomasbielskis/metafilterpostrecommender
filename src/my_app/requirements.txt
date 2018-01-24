@@ -7,10 +7,6 @@
 click==6.7                # via flask, pip-tools
 first==2.0.1              # via pip-tools
 flask==0.12.2
-gunicorn==19.7.1
-itsdangerous==0.24        # via flask
-jinja2==2.10              # via flask
-markupsafe==1.0           # via jinja2
 nltk==3.2.5
 numpy==1.14.0             # via pandas
 pandas==0.22.0
@@ -20,3 +16,4 @@ pytz==2017.3              # via pandas
 scikit-learn==0.19.1
 six==1.11.0               # via nltk, pip-tools, python-dateutil
 werkzeug==0.14.1          # via flask
+scipy

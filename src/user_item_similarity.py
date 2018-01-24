@@ -27,6 +27,3 @@ def rddTranspose(rdd):
                         cmp=lambda (i1,e1),(i2,e2) : cmp(i1, i2)))
     rddT4 = rddT3.map(lambda x: map(lambda (i, y): y , x))
     return rddT4.map(lambda x: np.asarray(x))
-
-
-# aws s3 cp s3://tomasbielskis-galvanizebucket/capstone/data/rec_input/ data/rec_input/ --recursive

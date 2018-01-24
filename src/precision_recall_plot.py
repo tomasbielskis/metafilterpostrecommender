@@ -50,8 +50,8 @@ for df, df_name in zip(dfs,df_names):
     d['model'] = df_name
     d.columns = ['precision', 'recall','model']
     ax.plot(d.precision,d.recall)
-plt.xlabel('precision')
-plt.ylabel('recall')
+plt.xlabel('Precision, %')
+plt.ylabel('Recall, %')
 plt.xlim(0,0.2)
 ax.legend(df_names)
 plt.show()

@@ -8,7 +8,11 @@ from nltk.stem.snowball import SnowballStemmer
 import os
 from flask import Flask, request, render_template
 
-app = Flask(__name__)
+user_data = pd.read_json('data/user_data2')#complete user data
+item_data = pd.read_json('data/item_data2')#syntehtic new posts
+
+
+application = Flask(__name__)
 
 # home page
 @app.route('/')
@@ -102,7 +106,5 @@ def recommend_text(string):
     return post_lookup(postids)
 
 if __name__ == '__main__':
-    user_data = pd.read_json('data/user_data2')#complete user data
-    item_data = pd.read_json('data/item_data2')#syntehtic new posts
 
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    application.run()#host='0.0.0.0', port=8080, debug=True)
