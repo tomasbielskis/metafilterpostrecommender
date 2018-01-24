@@ -32,13 +32,13 @@ With my project, I attempted to facilitate content discovery on MeFi and circumv
 
 ## More Details in Plainer Lingo
 
-Stemming refers to a common language processing technique that clips the word endings. For example, it turns the words: "joke," "joker," "joked", "joking" into "jok." This is a convenient shortcut to make the machine think all these words have similar in meaning by turning them into the same token.
+Stemming refers to a common language processing technique that clips the word endings. For example, it turns the words: "joke," "joker," "joked", "joking" into "jok." This is a convenient shortcut to make the machine think all these words have similar meaning by turning them into the same token.
 
 Term frequency and inverse document frequency refers to a process of turning words and documents into numbers and vectors based on how frequently the words occur and how many documents contain a particular word.
 
 My vectorization also included groups of two words that frequently occur together, know as bigrams, as opposed to single words tokens, which are called unigrams. For example, New York, Bin Laden, music video.
 
-NMF and LDA are matrix calculations that enable one to compress the information content into a smaller set of abstract features. For example, I limited my vocabulary (most common unigrams and bigrams) to 50,000 word tokens, and then used NMF and LDA to reduce that vocabulary down to 50 categories of words that commonly occur together. I ended up with categories that expressed theme of the topic such as technology, politics, music, art, or emotional tone such as excited, angry, sad, and other similar abstractions.
+NMF and LDA are methodologies that enable one to compress information content into a smaller set of abstract features. For example, I limited my vocabulary (most common unigrams and bigrams) to 50,000 word tokens, and then used NMF and LDA to reduce that vocabulary down to 50 categories of words that commonly occur together. I ended up with categories that expressed theme of the topic such as technology, politics, music, art, or emotional tone such as excited, angry, sad, and other similar abstractions.
 
 Here are a few of these abstract features with the dominant words (the category labels are implicit, I arbitrarily added them for illustrative purposes only):
 
@@ -95,11 +95,11 @@ Also, my methodology has 100 better recall* score, and 5 times better precision*
 
 My original idea was to develop a collaborative filtering model and complement it with text based post features. However, after exploring the data I realized that the favorites ratings for posts are incredibly sparse... I had less than 1,000,000 favorites since 2014, for 170,000 posts and 70,000 users, which divides up to a sparsity of less than a basis point (<0.01%). This basically killed the collaborative filtering idea and took me back to the drawing board.
 
-The epiphany came when I realized that I can use text features for posts that the user interacted with (either producing or favoriting them) to indicate their preferences. Most importantly this allowed me to expand and enrich my data set with features not only from posts but from comments as well, which were much more plentiful!  
+The epiphany came when I realized that I can use text features for posts and comments that the user interacted with (either producing or favoriting them) to indicate their preferences. Most importantly this allowed me to expand and enrich my data set with features not only from posts but from comments as well, which were much more plentiful!  
 
 ## Future Plans
 
-For my recommender, I only used the main part of MeFi, and none of the subsites. But my methodology should translate very easily to the rest of the site. In particular, this would be extremely effective and interesting applied to the Ask part of MeFi. If there is interest in the community I might build that in the future.
+For my recommender, I only used the main part of MeFi, and none of the subsites. But the methodology should translate very easily to the rest of the site. In particular, this would be extremely effective and interesting applied to the Ask part of MeFi. If there is interest in the community I might build that in the future.
 
 Given the time constraints for the project (only two weeks) and the number of items to process (7 million comments), I only ran three text processing models: NMF using Frobenius Norm, NMF using Kullback-Leibler divergence and LDA, my feature set was maxed at 50k and I extracted 50 latent features for each item, using unigrams and bigrams. I only used Snowball stemmer and no lemmatization. Hence, there is a lot of room left to optimize these parameters and explore the more interesting natural language processing techniques such as part of speech tagging and sentiment analysis.
 
