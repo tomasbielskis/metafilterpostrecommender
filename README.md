@@ -43,34 +43,34 @@ NMF and LDA are matrix calculations that enable one to compress the information 
 Here are a few of these abstract features with the dominant words (the category labels are implicit, I arbitrarily added them for illustrative purposes only):
 
 Game and video content:
-game	play	video	music	youtub	releas	version	song	video game	super	sound	classic	games	featur	seri	theme	includ	music video	youtube	soundtrack
+game, play, video, music, youtub, releas, version, song, video game, super, sound, classic, games, featur, seri, theme, includ, music video, youtube, soundtrack
 
 Movies:
-film	short	movi	trailer	titl	documentari	short film	director	films	seri	featur	filmmak	star	produc	direct	hollywood	theater	mysteri	minut	stori
+film, short, movi, trailer, titl, documentari, short film, director, films, seri, featur, filmmak, star, produc, direct, hollywood, theater, mysteri, minut, stori
 
 Common, casual talk:
-peopl	know	want	like	don	think	just	someth	way	look	sure	realli	need	someon	feel	ll	thing	probabl	talk	wonder
+peopl, know, want, like, don, think, just, someth, way, look, sure, realli, need, someon, feel, ll, thing, probabl, talk, wonder
 
 Astronomy:
-space	happen	slvimeo	station	report	earth	plan	flight	planet	nasa	launch	plane	moon	shuttl	pilot	orbit	space shuttl	bomb	near	protect
+space, happen, slvimeo, station, report, earth, plan, flight, planet, nasa, launch, plane, moon, shuttl, pilot, orbit, space shuttl, bomb, near, protect
 
 Comics:
-comic	tell	chris	blog	stori	superhero	strip	writer	interview	work	comic book	cartoon	random	come	san	unexpect	superman	jame	spider	featur
+comic, tell, chris, blog, stori, superhero, strip, writer, interview, work, comic book, cartoon, random, come, san, unexpect, superman, jame, spider, featur
 
 Design:
-just	use	make	creat	effect	design	model	matter	laugh	build	techniqu	water	market	engin	power	sold	devic	replac	process	human
+just, use, make, creat, effect, design, model, matter, laugh, build, techniqu, water, market, engin, power, sold, devic, replac, process, human
 
 NSFW / irreverent:
-slyt	slyt nsfw	nsfw	vs	tom	robot	perform	kiss	song	guy	skeleton	sung	yeah	funni	sing	danc	walk	bird	william	girl
+slyt, slyt nsfw, nsfw, vs, tom, robot, perform, kiss, song, guy, skeleton, sung, yeah, funni, sing, danc, walk, bird, william, girl
 
 Inspiration:
-time	long	travel	hour	puzzl	truli	word	befor	turn	got	long time	start	know	need	ny	hours	tri	use	inventor	home
+time, long, travel, hour, puzzl, truli, word, befor, turn, got, long time, start, know, need, ny, hours, tri, use, inventor, home
 
 Loss:
-pass	talk	away	yes	win	2011	steve	live	pass away	previous	job	steve job	years	appl	star	home	los	contest	offici	park
+pass, talk, away, yes, win, 2011, steve, live, pass away, previous, job, steve job, years, appl, star, home, los, contest, offici, park
 
 MeFi related:
-previous	mefi	view	link	point	projects	project	mefi projects	interact	author	person	map	metafilter	futur	previous mefi	origin	thank	interview	run	known
+previous, mefi, view, link, point, projects, project, mefi projects, interact, author, person, map, metafilter, futur, previous mefi, origin, thank, interview, run, known
 
 ## Tech Stack
 
