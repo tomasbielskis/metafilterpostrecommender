@@ -23,12 +23,54 @@ With my project, I attempted to facilitate content discovery on MeFi and circumv
   c) non-negative matrix factorization (NMF) and latent dirichlet allocation (LDA) to compress the word features into a smaller number of latent features.
 5. User preference feature engineering:
   - 4 sources of signal on user tastes derived from the available data:
-    - Posts written by the user
-    - Posts favorited by the user
-    - Comments written by the user
-    - Comments favorited by the user
+    - Posts written by the user - 170k records
+    - Posts favorited by the user - 1 million records
+    - Comments written by the user - 7 million records
+    - Comments favorited by the user - 15 million records
   - Collect and combine text features for the four categories above.
 6. Identify the posts that have features closest to the user preferences by using a cosine similarity matrix.
+
+## More Details in Plainer Lingo
+
+Stemming refers to a common language processing technique that clips the word endings. For example, it turns the words: "joke," "joker," "joked", "joking" into "jok." This is a convenient shortcut to make the machine think all these words have similar in meaning by turning them into the same token.
+
+Term frequency and inverse document frequency refers to a process of turning words and documents into numbers and vectors based on how frequently the words occur and how many documents contain a particular word.
+
+My vectorization also included groups of two words that frequently occur together, know as bigrams, as opposed to single words tokens, which are called unigrams. For example, New York, Bin Laden, music video.
+
+NMF and LDA are matrix calculations that enable one to compress the information content into a smaller set of abstract features. For example, I limited my vocabulary (most common unigrams and bigrams) to 50,000 word tokens, and then used NMF and LDA to reduce that vocabulary down to 50 categories of words that commonly occur together. I ended up with categories that expressed theme of the topic such as technology, politics, music, art, or emotional tone such as excited, angry, sad, and other similar abstractions.
+
+Here are a few of these abstract features with the dominant words (the category labels are implicit, I arbitrarily added them for illustrative purposes only):
+
+Game and video content:
+game	play	video	music	youtub	releas	version	song	video game	super	sound	classic	games	featur	seri	theme	includ	music video	youtube	soundtrack
+
+Movies:
+film	short	movi	trailer	titl	documentari	short film	director	films	seri	featur	filmmak	star	produc	direct	hollywood	theater	mysteri	minut	stori
+
+Common, casual talk:
+peopl	know	want	like	don	think	just	someth	way	look	sure	realli	need	someon	feel	ll	thing	probabl	talk	wonder
+
+Astronomy:
+space	happen	slvimeo	station	report	earth	plan	flight	planet	nasa	launch	plane	moon	shuttl	pilot	orbit	space shuttl	bomb	near	protect
+
+Comics:
+comic	tell	chris	blog	stori	superhero	strip	writer	interview	work	comic book	cartoon	random	come	san	unexpect	superman	jame	spider	featur
+
+Design:
+just	use	make	creat	effect	design	model	matter	laugh	build	techniqu	water	market	engin	power	sold	devic	replac	process	human
+
+NSFW / irreverent:
+slyt	slyt nsfw	nsfw	vs	tom	robot	perform	kiss	song	guy	skeleton	sung	yeah	funni	sing	danc	walk	bird	william	girl
+
+Inspiration:
+time	long	travel	hour	puzzl	truli	word	befor	turn	got	long time	start	know	need	ny	hours	tri	use	inventor	home
+
+Loss:
+pass	talk	away	yes	win	2011	steve	live	pass away	previous	job	steve job	years	appl	star	home	los	contest	offici	park
+
+MeFi related:
+previous	mefi	view	link	point	projects	project	mefi projects	interact	author	person	map	metafilter	futur	previous mefi	origin	thank	interview	run	known
 
 ## Tech Stack
 
