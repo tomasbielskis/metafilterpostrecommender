@@ -1,18 +1,18 @@
-#Metafilter.com post recommender
+# Metafilter.com post recommender
 
-##What's MeFi?
+## What's MeFi?
 
 MetaFilter (MeFi) is a community weblog where users post interesting content found on the web and engage in discussions about it. The community prides itself in exposing a diverse set of posts about what's best and most interesting on the internet. MeFi has over 70,000 registered users and has been around for almost 20 years. Despite having a very engaged and active user base, the site is fairly basic and old-school, using no automated content recommendation systems beyond popularity.  
 
-##Problem statement
+## Problem statement
 
 Like many online communities and sites, MeFi harbors a wealth of content far exceeding what is possible for an individual user to explore. Popular posts tend to get a lot more exposure than the less noticed but equally deserving ones hiding in the long tail. This self-fulfilling quality of popularity is an evil that we ought to fight!
 
-##Mission statement
+## Mission statement
 
 With my project, I attempted to facilitate content discovery on MeFi and circumvent the tunnel vision of popularity by quantifying the tastes and preferences of individual users and aligning them with the explicit and implicit characteristics of posts and comments. I wanted to produce a recommender that is superior to collaborative filtering methodology based on favorites alone.
 
-##Process
+## Process
 
 1. Scrape all content from the site.
 2. Parse all posts and comments.
@@ -30,12 +30,12 @@ With my project, I attempted to facilitate content discovery on MeFi and circumv
   - Collect and combine text features for the four categories above.
 6. Identify the posts that have features closest to the user preferences by using a cosine similarity matrix.
 
-##Tech Stack
+## Tech Stack
 
 - Python libraries: numpy, pandas, sklearn, nltk, multiprocessing, flask
 - MongoDB, AWS EC2, S3, Elastic Beanstalk
 
-##Results
+## Results
 
 I had two main goals:
   1. Quantity. Increase the number of users that can benefit from my methodology compared to collaborative filtering based on favorite ratings.
@@ -49,13 +49,13 @@ Also, my methodology has 100 better recall* score, and 5 times better precision*
 
 * Recall is the number of posts in the recommendation set that were actually favorited by users, divided by the number of total actual favorites in the test set of posts.
 
-##Discussion
+## Discussion
 
 My original idea was to develop a collaborative filtering model and complement it with text based post features. However, after exploring the data I realized that the favorites ratings for posts are incredibly sparse... I had less than 1,000,000 favorites since 2014, for 170,000 posts and 70,000 users, which divides up to a sparsity of less than a basis point (<0.01%). This basically killed the collaborative filtering idea and took me back to the drawing board.
 
 The epiphany came when I realized that I can use text features for posts that the user interacted with (either producing or favoriting them) to indicate their preferences. Most importantly this allowed me to expand and enrich my data set with features not only from posts but from comments as well, which were much more plentiful!  
 
-##Future plans
+## Future plans
 
 For my recommender, I only used the main part of MeFi, and none of the subsites. But my methodology should translate very easily to the rest of the site. In particular, this would be extremely effective and interesting applied to the Ask part of MeFi. If there is interest in the community I might build that in the future.
 
