@@ -66,4 +66,4 @@ Even though I tested my model on a synthetic set of randomly selected past posts
 The favoriting feature of MeFi is binary and not sufficiently popular to be a great indicator of user interest and the level of it. The main problem is that the absence of favorite does not necessarily indicate that the user would not like the post; in most cases, it just means that the user hasn't read it. What would be particularly useful in uderstanding user preferences is clickthrough data for posts and embedded links but I'm not sure if MeFi even tracks that at all.
 
 Link to the recommender:
-[www.metafilterpostrecommender.com](www.metafilterpostrecommender.com)
+[www.metafilterpostrecommender.com](http://www.metafilterpostrecommender.com)
